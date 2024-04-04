@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <section className='bg-[url("https://cdn.pixabay.com/photo/2016/10/20/18/35/earth-1756274_1280.jpg")] bg-cover h-96'>
+    <section className='m: bg-[url("https://cdn.pixabay.com/photo/2016/10/20/18/35/earth-1756274_1280.jpg")] bg-cover h-96 md:1/2'>
       <NavBar />
       <h1 className='text-white text-center mb-4 pt-40 text-5xl '>Country API App</h1>
       <p className='text-white text-center mt-4 text-2xl'>This is a simple app that allows you to search for countries and continents using the API.</p>

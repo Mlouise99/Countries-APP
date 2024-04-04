@@ -6,7 +6,7 @@ const Footer = () => {
     <div className='pr-40 pl-40 mt-4'>
       <img src=".././public/logo.png" alt="" />
       </div>
-      <p className='float-right pr-40 pl-40'>Copyright © 2024. All rights reserved.</p>
+      <p className='float-right pr-40 pl-40'>Copyright &copy; {new Date().getFullYear()}. All rights reserved.</p>
 
    
     </div>
