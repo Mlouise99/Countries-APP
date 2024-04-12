@@ -1,61 +1,50 @@
 import React, { useEffect, useState } from 'react';
+import { getCountries } from '../apis/countries';
+import { useSearchParams } from 'react-router-dom';
+import Pagination from './Pagination';
 
 const Countries = () => {
   const [listOfCountries, setListOfCountries] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const getCountries = async () => {
-    try {
-      const response = await fetch("https://restcountries.com/v3.1/all", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch countries');
-      }
-
-      const data = await response.json();
-      console.log(data[0]);
-      setListOfCountries(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching countries:', error);
-      setError('An error occurred while fetching countries. Please try again later.');
-      setLoading(false);
-    }
-  }
+  const [searchParams, setSearchParams] = useSearchParams({ page: 1 });
 
   useEffect(() => {
+    let pageNumber = Number(searchParams.get('page'));
+
     setLoading(true);
-    getCountries();
-  }, []);
+    
+    getCountries(pageNumber)
+    .then((data) => {
+      setListOfCountries(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(()=> {
+      setLoading(false);
+    })
+
+
+  },[]);
 
   return (
-    <div className='pl-4 pr-4 md:pl-40 md:pr-40'>
-      <div className=' mt-11 flex flex-col md:flex-row justify-between items-center'>
-        <div>
-          <h1 className='text-2xl mb-2'>View Countries</h1>
-          <p>Page 1 of 5</p>
+ <div className='max-auto max-w-full items-center justify-center sm:pr-40 sm:pl-40 mt-11'>
+      
+      <div  className='flex justify-between mb-9'>
+        <div >
+          <h3  className='text-2xl mb-2'>View Countries</h3>
+          <p>Page {Number(searchParams.get('page'))} of 5</p>
         </div>
-        <select className="ml-auto" id="">
-          <option>Select Continent</option>
-          <option className='tablet'>South America</option>
-          <option>North America</option>
-          <option>Asia</option>
-          <option>Europe</option>
-          <option>Africa</option>
-          <option>Antarctica</option>
-          <option>Oceania</option>
+        <select>
+          <option value="">Select region</option>
         </select>
       </div>
+
+      {/* List of countries */}
       <div id='countries' className='flex flex-wrap w-full justify-between md:gap-1'>
         {listOfCountries.length > 0 && listOfCountries.map((country, index) => {
           return (
-            <div key={index} className='w-5/12 md:w-1/5 mb-5'>
+            <div key={index} className='w-5/12 md:w-1/5 mb-5 text-gray-500'>
               <img src={country.flags.svg} alt={country.flags.alt} />
               <p>{country.name.common}</p>
               <p>{country.capital}</p>
@@ -67,12 +56,29 @@ const Countries = () => {
 
         {loading && <p>Loading...</p>}
 
-        {error && <p className="text-red-500">{error}</p>}
-        
-        {!loading && listOfCountries.length === 0 && !error && <p>No countries available</p>}
+        {(!loading && listOfCountries.length === 0) && <p>No countries available</p>}
+
+        {/* Using Ternary operators */}
+        {/* {listOfCountries.length > 0
+          ? 
+            listOfCountries.length > 0 && listOfCountries.map((country, index) => {
+              return (
+                <div key={index}>
+                  <img src={country.flag} alt={country.name} />
+                  <p>{country.name}</p>
+                </div>
+              )
+            })
+          : <p>No countries available</p>
+        } */}
+
       </div>
-    </div>
-  );
+
+      {/* Pagination  */}
+      <Pagination searchParams={searchParams} setSearchParams={setSearchParams}/>
+      </div>
+  
+  )
 }
 
-export default Countries;
+export default Countries

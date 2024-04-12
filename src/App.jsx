@@ -16,7 +16,7 @@ const App = () => {
           </HomeLayout>
         }
         />
-        <Route path="/regions" element={
+        {/* <Route path="/regions" element={
           <OtherLayouts>
             <Regions />
           </OtherLayouts>
@@ -27,7 +27,7 @@ const App = () => {
             <NotFound />
           </OtherLayouts>
         }
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   )
