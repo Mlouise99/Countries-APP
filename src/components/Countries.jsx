@@ -12,6 +12,11 @@ const Countries = () => {
   const [viewType, setViewType] = useState('card');
   const [filterType, setFilterType] = useState('region');
   const [searchParams, setSearchParams] = useSearchParams({ page: 1 });
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const handleSearch = (term) => {
+    setSearchTerm(term); // Update the search term state
+  };
 
   // Fetch countries data from API
   useEffect(() => {
@@ -79,12 +84,12 @@ const Countries = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className='bg-white divide-y divide-gray-200'>
+            <tbody className='bg-white divide-y  divide-gray-200'>
               {listOfCountries.map((country, index) => (
                 <tr key={index}>
-                  <td className='px-6 py-4 whitespace-nowrap'>{country.name.common}</td>
-                  <td className='px-6 py-4 whitespace-nowrap'>{country.capital}</td>
-                  <td className='px-6 py-4 whitespace-nowrap'>{country.population}</td>
+                  <td className='px-6 py-4 whitespace-nowrap border-r border-gray-400'>{country.name.common}</td>
+                  <td className='px-6 py-4 whitespace-nowrap border-r border-gray-400'>{country.capital}</td>
+                  <td className='px-6 py-4 whitespace-nowrap border-r border-gray-400'>{country.population}</td>
                   <td className='px-6 py-4 whitespace-nowrap'>{country.continents}</td>
                 </tr>
               ))}
@@ -98,7 +103,7 @@ const Countries = () => {
   // Render the component JSX
   return (
     <div className='max-auto max-w-full items-center justify-center sm:pr-40 sm:pl-40 mt-11'>
-      <div className='flex justify-between mb-9'>
+      <div className='flex justify-between mb-9 '>
         <div>
           <h3 className='text-2xl mb-2'>View Countries</h3>
           <p>Page {Number(searchParams.get('page'))} of 5</p>
@@ -109,7 +114,7 @@ const Countries = () => {
         </select>
       </div>
 
-      <button onClick={toggleView}>{viewType === 'card' ? 'Table View' : 'Card View'}</button>
+      <button className='bg-blue-300 rounded-full w-96 mb-7 ' onClick={toggleView}>{viewType === 'card' ? ' Click here to view in Table ' : ' Click here to view in Card '}</button>
 
       {renderCountries()}
 

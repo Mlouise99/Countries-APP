@@ -4,9 +4,9 @@ const SearchInput = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-    // Call the onSearch callback with the updated search term
-    onSearch(event.target.value);
+    const term = event.target.value;
+    setSearchTerm(term);
+    onSearch(term); 
   };
 
   return (
